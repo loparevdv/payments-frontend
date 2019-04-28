@@ -4,8 +4,8 @@ if (typeof kotlin === 'undefined') {
 this['payments-frontend'] = function (_, Kotlin) {
   'use strict';
   var throwCCE = Kotlin.throwCCE;
-  var Unit = Kotlin.kotlin.Unit;
   var addClass = Kotlin.kotlin.dom.addClass_hhb33f$;
+  var Unit = Kotlin.kotlin.Unit;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
@@ -21,30 +21,33 @@ this['payments-frontend'] = function (_, Kotlin) {
   function FormBuilder() {
   }
   FormBuilder.prototype.build_1prwkh$ = function (paymentOptionForm) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     var containerElement = Kotlin.isType(tmp$ = document.createElement('div'), HTMLDivElement) ? tmp$ : throwCCE();
     var titleElement = Kotlin.isType(tmp$_0 = document.createElement('div'), HTMLDivElement) ? tmp$_0 : throwCCE();
     var imageElement = Kotlin.isType(tmp$_1 = document.createElement('img'), HTMLImageElement) ? tmp$_1 : throwCCE();
     var viewDetailsBackButtonElement = Kotlin.isType(tmp$_2 = document.createElement('button'), HTMLButtonElement) ? tmp$_2 : throwCCE();
-    this.bind_0(paymentOptionForm, titleElement, imageElement, viewDetailsBackButtonElement);
-    this.applyStyle_0(containerElement, titleElement, imageElement, viewDetailsBackButtonElement);
-    this.appendChild_0(containerElement, [titleElement, imageElement, viewDetailsBackButtonElement]);
+    var viewFormSubmitButtonElement = Kotlin.isType(tmp$_3 = document.createElement('button'), HTMLButtonElement) ? tmp$_3 : throwCCE();
+    this.bind_0(paymentOptionForm, titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement);
+    this.applyStyle_0(containerElement, titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement);
+    this.appendChild_0(containerElement, [titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement]);
     var schema = JSON.parse(paymentOptionForm.schema);
-    var tmp$_3;
-    for (tmp$_3 = 0; tmp$_3 !== schema.length; ++tmp$_3) {
-      var element = schema[tmp$_3];
-      var tmp$_4;
-      var input = Kotlin.isType(tmp$_4 = document.createElement('input'), HTMLInputElement) ? tmp$_4 : throwCCE();
+    var tmp$_4;
+    for (tmp$_4 = 0; tmp$_4 !== schema.length; ++tmp$_4) {
+      var element = schema[tmp$_4];
+      var tmp$_5;
+      var input = Kotlin.isType(tmp$_5 = document.createElement('input'), HTMLInputElement) ? tmp$_5 : throwCCE();
       input.innerHTML = element;
+      addClass(input, ['form-input']);
       containerElement.appendChild(input);
     }
     return containerElement;
   };
-  FormBuilder.prototype.applyStyle_0 = function (containerElement, titleElement, imageElement, viewDetailsBackButtonElement) {
+  FormBuilder.prototype.applyStyle_0 = function (containerElement, titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement) {
     addClass(containerElement, ['form', 'form-shadow']);
     addClass(titleElement, ['text-title', 'float-left']);
     addClass(imageElement, ['cover-image']);
-    addClass(viewDetailsBackButtonElement, ['view-details', 'ripple', 'float-right']);
+    addClass(viewFormSubmitButtonElement, ['submit', 'ripple', 'float-right']);
+    addClass(viewDetailsBackButtonElement, ['back', 'ripple', 'float-right']);
   };
   function FormBuilder$bind$lambda(it) {
     var paymentOptionFormPresenter = new PaymentOptionFormPresenter();
@@ -55,9 +58,10 @@ this['payments-frontend'] = function (_, Kotlin) {
     paymentOptionListPage.show();
     return Unit;
   }
-  FormBuilder.prototype.bind_0 = function (paymentOptionForm, titleElement, imageElement, viewDetailsBackButtonElement) {
+  FormBuilder.prototype.bind_0 = function (paymentOptionForm, titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement) {
     titleElement.innerHTML = paymentOptionForm.name;
     imageElement.src = paymentOptionForm.logoUrl;
+    viewFormSubmitButtonElement.innerHTML = 'SUBMIT';
     viewDetailsBackButtonElement.innerHTML = 'BACK';
     viewDetailsBackButtonElement.addEventListener('click', FormBuilder$bind$lambda);
   };

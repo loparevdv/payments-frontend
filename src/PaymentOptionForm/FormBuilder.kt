@@ -16,19 +16,22 @@ class FormBuilder {
                 paymentOptionForm=paymentOptionForm,
                 titleElement=titleElement,
                 imageElement = imageElement,
-                viewDetailsBackButtonElement = viewDetailsBackButtonElement
+                viewDetailsBackButtonElement = viewDetailsBackButtonElement,
+                viewFormSubmitButtonElement = viewFormSubmitButtonElement
         )
         applyStyle(
                 containerElement=containerElement,
                 titleElement = titleElement,
                 imageElement = imageElement,
-                viewDetailsBackButtonElement = viewDetailsBackButtonElement
+                viewDetailsBackButtonElement = viewDetailsBackButtonElement,
+                viewFormSubmitButtonElement = viewFormSubmitButtonElement
         )
 
         containerElement.appendChild(
                 titleElement,
                 imageElement,
-                viewDetailsBackButtonElement
+                viewDetailsBackButtonElement,
+                viewFormSubmitButtonElement
         )
 
         val schema= JSON.parse<Array<String>>(paymentOptionForm.schema)
@@ -36,6 +39,7 @@ class FormBuilder {
         schema.forEach {
             val input = document.createElement("input") as HTMLInputElement
             input.innerHTML = it
+            input.addClass("form-input")
             containerElement.appendChild(input)
         }
 
@@ -46,12 +50,14 @@ class FormBuilder {
             containerElement: HTMLDivElement,
             titleElement: HTMLDivElement,
             imageElement: HTMLImageElement,
-            viewDetailsBackButtonElement: HTMLButtonElement
+            viewDetailsBackButtonElement: HTMLButtonElement,
+            viewFormSubmitButtonElement: HTMLButtonElement
     ) {
         containerElement.addClass("form", "form-shadow")
         titleElement.addClass("text-title", "float-left")
         imageElement.addClass("cover-image")
-        viewDetailsBackButtonElement.addClass("view-details", "ripple", "float-right")
+        viewFormSubmitButtonElement.addClass("submit", "ripple", "float-right")
+        viewDetailsBackButtonElement.addClass("back", "ripple", "float-right")
     }
 
     private fun bind(
@@ -59,9 +65,12 @@ class FormBuilder {
             titleElement: HTMLDivElement,
             imageElement: HTMLImageElement,
             viewDetailsBackButtonElement: HTMLButtonElement,
+            viewFormSubmitButtonElement: HTMLButtonElement
     ) {
         titleElement.innerHTML = paymentOptionForm.name
         imageElement.src = paymentOptionForm.logoUrl
+
+        viewFormSubmitButtonElement.innerHTML = "SUBMIT"
 
         viewDetailsBackButtonElement.innerHTML = "BACK"
         viewDetailsBackButtonElement.addEventListener("click", {
