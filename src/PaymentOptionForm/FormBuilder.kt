@@ -9,30 +9,35 @@ class FormBuilder {
         val containerElement = document.createElement("div") as HTMLDivElement
         val titleElement = document.createElement("div") as HTMLDivElement
         val imageElement = document.createElement("img") as HTMLImageElement
-        val descriptionElement = document.createElement("div") as HTMLDivElement
         val viewDetailsBackButtonElement = document.createElement("button") as HTMLButtonElement
+        val viewFormSubmitButtonElement = document.createElement("button") as HTMLButtonElement
 
         bind(
                 paymentOptionForm=paymentOptionForm,
                 titleElement=titleElement,
                 imageElement = imageElement,
-                descriptionElement = descriptionElement,
                 viewDetailsBackButtonElement = viewDetailsBackButtonElement
         )
         applyStyle(
                 containerElement=containerElement,
                 titleElement = titleElement,
                 imageElement = imageElement,
-                descriptionElement = descriptionElement,
                 viewDetailsBackButtonElement = viewDetailsBackButtonElement
         )
 
         containerElement.appendChild(
                 titleElement,
                 imageElement,
-                descriptionElement,
                 viewDetailsBackButtonElement
         )
+
+        val schema= JSON.parse<Array<String>>(paymentOptionForm.schema)
+
+        schema.forEach {
+            val input = document.createElement("input") as HTMLInputElement
+            input.innerHTML = it
+            containerElement.appendChild(input)
+        }
 
         return containerElement
     }
@@ -41,13 +46,11 @@ class FormBuilder {
             containerElement: HTMLDivElement,
             titleElement: HTMLDivElement,
             imageElement: HTMLImageElement,
-            descriptionElement: HTMLDivElement,
             viewDetailsBackButtonElement: HTMLButtonElement
     ) {
         containerElement.addClass("form", "form-shadow")
         titleElement.addClass("text-title", "float-left")
         imageElement.addClass("cover-image")
-        descriptionElement.addClass("text-description", "float-left")
         viewDetailsBackButtonElement.addClass("view-details", "ripple", "float-right")
     }
 
@@ -55,12 +58,10 @@ class FormBuilder {
             paymentOptionForm: PaymentOptionForm,
             titleElement: HTMLDivElement,
             imageElement: HTMLImageElement,
-            descriptionElement: HTMLDivElement,
-            viewDetailsBackButtonElement: HTMLButtonElement
+            viewDetailsBackButtonElement: HTMLButtonElement,
     ) {
         titleElement.innerHTML = paymentOptionForm.name
         imageElement.src = paymentOptionForm.logoUrl
-        descriptionElement.innerHTML = paymentOptionForm.description
 
         viewDetailsBackButtonElement.innerHTML = "BACK"
         viewDetailsBackButtonElement.addEventListener("click", {

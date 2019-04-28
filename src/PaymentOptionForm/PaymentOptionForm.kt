@@ -3,5 +3,6 @@ data class PaymentOptionForm(
         val codename: String,
         val description: String,
         val url: String,
-        val logoUrl: String
+        val logoUrl: String,
+        val schema: String
 )
