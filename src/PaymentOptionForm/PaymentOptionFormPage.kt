@@ -5,12 +5,15 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
     private val loader = document.getElementById("loader") as HTMLDivElement
     private val content = document.getElementById("content") as HTMLDivElement
 
-    private var tileBuilder = TileBuilder()
-
     override fun showPaymentOptionForm(paymentOptionForm: PaymentOptionForm) {
         var form = FormBuilder().build(paymentOptionForm)
         content.appendChild(form)
     }
+
+    override fun hidePaymentOptionForm() {
+        content.innerHTML = ""
+    }
+
 
     override fun showLoader() {
     }
@@ -19,7 +22,8 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
         loader.style.display = "none"
     }
 
-    fun show() {
+    fun show(codename: String) {
+        println(codename)
         presenter.attach(this)
         presenter.loadPaymentOptionForm()
     }

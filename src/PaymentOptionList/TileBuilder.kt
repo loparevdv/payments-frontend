@@ -71,7 +71,7 @@ class TileBuilder {
 
             val paymentOptionFormPresenter = PaymentOptionFormPresenter()
             val paymentOptionFormPage = PaymentOptionFormPage(paymentOptionFormPresenter)
-            paymentOptionFormPage.show()
+            paymentOptionFormPage.show(codename=paymentOption.codename)
 
         })
     }

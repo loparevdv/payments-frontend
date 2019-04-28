@@ -8,6 +8,7 @@ this['payments-frontend'] = function (_, Kotlin) {
   var Unit = Kotlin.kotlin.Unit;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
+  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var throwUPAE = Kotlin.throwUPAE;
   var toList = Kotlin.kotlin.collections.toList_us0mfu$;
   var toShort = Kotlin.toShort;
@@ -25,28 +26,34 @@ this['payments-frontend'] = function (_, Kotlin) {
     var titleElement = Kotlin.isType(tmp$_0 = document.createElement('div'), HTMLDivElement) ? tmp$_0 : throwCCE();
     var imageElement = Kotlin.isType(tmp$_1 = document.createElement('img'), HTMLImageElement) ? tmp$_1 : throwCCE();
     var descriptionElement = Kotlin.isType(tmp$_2 = document.createElement('div'), HTMLDivElement) ? tmp$_2 : throwCCE();
-    var viewDetailsButtonElement = Kotlin.isType(tmp$_3 = document.createElement('button'), HTMLButtonElement) ? tmp$_3 : throwCCE();
-    this.bind_0(paymentOptionForm, titleElement, imageElement, descriptionElement, viewDetailsButtonElement);
-    this.applyStyle_0(containerElement, titleElement, imageElement, descriptionElement, viewDetailsButtonElement);
-    this.appendChild_0(containerElement, [titleElement, imageElement, descriptionElement, viewDetailsButtonElement]);
+    var viewDetailsBackButtonElement = Kotlin.isType(tmp$_3 = document.createElement('button'), HTMLButtonElement) ? tmp$_3 : throwCCE();
+    this.bind_0(paymentOptionForm, titleElement, imageElement, descriptionElement, viewDetailsBackButtonElement);
+    this.applyStyle_0(containerElement, titleElement, imageElement, descriptionElement, viewDetailsBackButtonElement);
+    this.appendChild_0(containerElement, [titleElement, imageElement, descriptionElement, viewDetailsBackButtonElement]);
     return containerElement;
   };
-  FormBuilder.prototype.applyStyle_0 = function (containerElement, titleElement, imageElement, descriptionElement, viewDetailsButtonElement) {
-    addClass(containerElement, ['card', 'card-shadow']);
+  FormBuilder.prototype.applyStyle_0 = function (containerElement, titleElement, imageElement, descriptionElement, viewDetailsBackButtonElement) {
+    addClass(containerElement, ['form', 'form-shadow']);
     addClass(titleElement, ['text-title', 'float-left']);
     addClass(imageElement, ['cover-image']);
     addClass(descriptionElement, ['text-description', 'float-left']);
-    addClass(viewDetailsButtonElement, ['view-details', 'ripple', 'float-right']);
+    addClass(viewDetailsBackButtonElement, ['view-details', 'ripple', 'float-right']);
   };
   function FormBuilder$bind$lambda(it) {
+    var paymentOptionFormPresenter = new PaymentOptionFormPresenter();
+    var paymentOptionFormPage = new PaymentOptionFormPage(paymentOptionFormPresenter);
+    paymentOptionFormPage.hidePaymentOptionForm();
+    var paymentOptionListPresenter = new PaymentOptionListPresenter();
+    var paymentOptionListPage = new PaymentOptionListPage(paymentOptionListPresenter);
+    paymentOptionListPage.show();
     return Unit;
   }
-  FormBuilder.prototype.bind_0 = function (paymentOptionForm, titleElement, imageElement, descriptionElement, viewDetailsButtonElement) {
+  FormBuilder.prototype.bind_0 = function (paymentOptionForm, titleElement, imageElement, descriptionElement, viewDetailsBackButtonElement) {
     titleElement.innerHTML = paymentOptionForm.name;
     imageElement.src = paymentOptionForm.logoUrl;
     descriptionElement.innerHTML = paymentOptionForm.description;
-    viewDetailsButtonElement.innerHTML = 'view details';
-    viewDetailsButtonElement.addEventListener('click', FormBuilder$bind$lambda);
+    viewDetailsBackButtonElement.innerHTML = 'BACK';
+    viewDetailsBackButtonElement.addEventListener('click', FormBuilder$bind$lambda);
   };
   FormBuilder.prototype.appendChild_0 = function ($receiver, elements) {
     var tmp$;
@@ -60,8 +67,9 @@ this['payments-frontend'] = function (_, Kotlin) {
     simpleName: 'FormBuilder',
     interfaces: []
   };
-  function PaymentOptionForm(name, description, url, logoUrl) {
+  function PaymentOptionForm(name, codename, description, url, logoUrl) {
     this.name = name;
+    this.codename = codename;
     this.description = description;
     this.url = url;
     this.logoUrl = logoUrl;
@@ -75,30 +83,34 @@ this['payments-frontend'] = function (_, Kotlin) {
     return this.name;
   };
   PaymentOptionForm.prototype.component2 = function () {
-    return this.description;
+    return this.codename;
   };
   PaymentOptionForm.prototype.component3 = function () {
-    return this.url;
+    return this.description;
   };
   PaymentOptionForm.prototype.component4 = function () {
+    return this.url;
+  };
+  PaymentOptionForm.prototype.component5 = function () {
     return this.logoUrl;
   };
-  PaymentOptionForm.prototype.copy_w74nik$ = function (name, description, url, logoUrl) {
-    return new PaymentOptionForm(name === void 0 ? this.name : name, description === void 0 ? this.description : description, url === void 0 ? this.url : url, logoUrl === void 0 ? this.logoUrl : logoUrl);
+  PaymentOptionForm.prototype.copy_x0a6t6$ = function (name, codename, description, url, logoUrl) {
+    return new PaymentOptionForm(name === void 0 ? this.name : name, codename === void 0 ? this.codename : codename, description === void 0 ? this.description : description, url === void 0 ? this.url : url, logoUrl === void 0 ? this.logoUrl : logoUrl);
   };
   PaymentOptionForm.prototype.toString = function () {
-    return 'PaymentOptionForm(name=' + Kotlin.toString(this.name) + (', description=' + Kotlin.toString(this.description)) + (', url=' + Kotlin.toString(this.url)) + (', logoUrl=' + Kotlin.toString(this.logoUrl)) + ')';
+    return 'PaymentOptionForm(name=' + Kotlin.toString(this.name) + (', codename=' + Kotlin.toString(this.codename)) + (', description=' + Kotlin.toString(this.description)) + (', url=' + Kotlin.toString(this.url)) + (', logoUrl=' + Kotlin.toString(this.logoUrl)) + ')';
   };
   PaymentOptionForm.prototype.hashCode = function () {
     var result = 0;
     result = result * 31 + Kotlin.hashCode(this.name) | 0;
+    result = result * 31 + Kotlin.hashCode(this.codename) | 0;
     result = result * 31 + Kotlin.hashCode(this.description) | 0;
     result = result * 31 + Kotlin.hashCode(this.url) | 0;
     result = result * 31 + Kotlin.hashCode(this.logoUrl) | 0;
     return result;
   };
   PaymentOptionForm.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.description, other.description) && Kotlin.equals(this.url, other.url) && Kotlin.equals(this.logoUrl, other.logoUrl)))));
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.codename, other.codename) && Kotlin.equals(this.description, other.description) && Kotlin.equals(this.url, other.url) && Kotlin.equals(this.logoUrl, other.logoUrl)))));
   };
   function PaymentOptionFormContract() {
   }
@@ -126,18 +138,21 @@ this['payments-frontend'] = function (_, Kotlin) {
     var tmp$, tmp$_0;
     this.loader_0 = Kotlin.isType(tmp$ = document.getElementById('loader'), HTMLDivElement) ? tmp$ : throwCCE();
     this.content_0 = Kotlin.isType(tmp$_0 = document.getElementById('content'), HTMLDivElement) ? tmp$_0 : throwCCE();
-    this.tileBuilder_0 = new TileBuilder();
   }
   PaymentOptionFormPage.prototype.showPaymentOptionForm_1prwkh$ = function (paymentOptionForm) {
     var form = (new FormBuilder()).build_1prwkh$(paymentOptionForm);
     this.content_0.appendChild(form);
+  };
+  PaymentOptionFormPage.prototype.hidePaymentOptionForm = function () {
+    this.content_0.innerHTML = '';
   };
   PaymentOptionFormPage.prototype.showLoader = function () {
   };
   PaymentOptionFormPage.prototype.hideLoader = function () {
     this.loader_0.style.display = 'none';
   };
-  PaymentOptionFormPage.prototype.show = function () {
+  PaymentOptionFormPage.prototype.show_61zpoe$ = function (codename) {
+    println(codename);
     this.presenter_0.attach_13q136$(this);
     this.presenter_0.loadPaymentOptionForm();
   };
@@ -194,8 +209,9 @@ this['payments-frontend'] = function (_, Kotlin) {
     simpleName: 'PaymentOptionFormPresenter',
     interfaces: [PaymentOptionFormContract$Presenter]
   };
-  function PaymentOption(name, description, url, logoUrl) {
+  function PaymentOption(name, codename, description, url, logoUrl) {
     this.name = name;
+    this.codename = codename;
     this.description = description;
     this.url = url;
     this.logoUrl = logoUrl;
@@ -209,30 +225,34 @@ this['payments-frontend'] = function (_, Kotlin) {
     return this.name;
   };
   PaymentOption.prototype.component2 = function () {
-    return this.description;
+    return this.codename;
   };
   PaymentOption.prototype.component3 = function () {
-    return this.url;
+    return this.description;
   };
   PaymentOption.prototype.component4 = function () {
+    return this.url;
+  };
+  PaymentOption.prototype.component5 = function () {
     return this.logoUrl;
   };
-  PaymentOption.prototype.copy_w74nik$ = function (name, description, url, logoUrl) {
-    return new PaymentOption(name === void 0 ? this.name : name, description === void 0 ? this.description : description, url === void 0 ? this.url : url, logoUrl === void 0 ? this.logoUrl : logoUrl);
+  PaymentOption.prototype.copy_x0a6t6$ = function (name, codename, description, url, logoUrl) {
+    return new PaymentOption(name === void 0 ? this.name : name, codename === void 0 ? this.codename : codename, description === void 0 ? this.description : description, url === void 0 ? this.url : url, logoUrl === void 0 ? this.logoUrl : logoUrl);
   };
   PaymentOption.prototype.toString = function () {
-    return 'PaymentOption(name=' + Kotlin.toString(this.name) + (', description=' + Kotlin.toString(this.description)) + (', url=' + Kotlin.toString(this.url)) + (', logoUrl=' + Kotlin.toString(this.logoUrl)) + ')';
+    return 'PaymentOption(name=' + Kotlin.toString(this.name) + (', codename=' + Kotlin.toString(this.codename)) + (', description=' + Kotlin.toString(this.description)) + (', url=' + Kotlin.toString(this.url)) + (', logoUrl=' + Kotlin.toString(this.logoUrl)) + ')';
   };
   PaymentOption.prototype.hashCode = function () {
     var result = 0;
     result = result * 31 + Kotlin.hashCode(this.name) | 0;
+    result = result * 31 + Kotlin.hashCode(this.codename) | 0;
     result = result * 31 + Kotlin.hashCode(this.description) | 0;
     result = result * 31 + Kotlin.hashCode(this.url) | 0;
     result = result * 31 + Kotlin.hashCode(this.logoUrl) | 0;
     return result;
   };
   PaymentOption.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.description, other.description) && Kotlin.equals(this.url, other.url) && Kotlin.equals(this.logoUrl, other.logoUrl)))));
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.codename, other.codename) && Kotlin.equals(this.description, other.description) && Kotlin.equals(this.url, other.url) && Kotlin.equals(this.logoUrl, other.logoUrl)))));
   };
   function PaymentOptionListContract() {
   }
@@ -357,21 +377,23 @@ this['payments-frontend'] = function (_, Kotlin) {
     addClass(descriptionElement, ['text-description', 'float-left']);
     addClass(viewDetailsButtonElement, ['view-details', 'ripple', 'float-right']);
   };
-  function TileBuilder$bind$lambda(it) {
-    var paymentOptionListPresenter = new PaymentOptionListPresenter();
-    var paymentOptionListPage = new PaymentOptionListPage(paymentOptionListPresenter);
-    paymentOptionListPage.hidePaymentOptions();
-    var paymentOptionFormPresenter = new PaymentOptionFormPresenter();
-    var paymentOptionFormPage = new PaymentOptionFormPage(paymentOptionFormPresenter);
-    paymentOptionFormPage.show();
-    return Unit;
+  function TileBuilder$bind$lambda(closure$paymentOption) {
+    return function (it) {
+      var paymentOptionListPresenter = new PaymentOptionListPresenter();
+      var paymentOptionListPage = new PaymentOptionListPage(paymentOptionListPresenter);
+      paymentOptionListPage.hidePaymentOptions();
+      var paymentOptionFormPresenter = new PaymentOptionFormPresenter();
+      var paymentOptionFormPage = new PaymentOptionFormPage(paymentOptionFormPresenter);
+      paymentOptionFormPage.show_61zpoe$(closure$paymentOption.codename);
+      return Unit;
+    };
   }
   TileBuilder.prototype.bind_0 = function (paymentOption, titleElement, imageElement, descriptionElement, viewDetailsButtonElement) {
     titleElement.innerHTML = paymentOption.name;
     imageElement.src = paymentOption.logoUrl;
     descriptionElement.innerHTML = paymentOption.description;
     viewDetailsButtonElement.innerHTML = 'view details';
-    viewDetailsButtonElement.addEventListener('click', TileBuilder$bind$lambda);
+    viewDetailsButtonElement.addEventListener('click', TileBuilder$bind$lambda(paymentOption));
   };
   TileBuilder.prototype.appendChild_0 = function ($receiver, elements) {
     var tmp$;

@@ -10,28 +10,28 @@ class FormBuilder {
         val titleElement = document.createElement("div") as HTMLDivElement
         val imageElement = document.createElement("img") as HTMLImageElement
         val descriptionElement = document.createElement("div") as HTMLDivElement
-        val viewDetailsButtonElement = document.createElement("button") as HTMLButtonElement
+        val viewDetailsBackButtonElement = document.createElement("button") as HTMLButtonElement
 
         bind(
                 paymentOptionForm=paymentOptionForm,
                 titleElement=titleElement,
                 imageElement = imageElement,
                 descriptionElement = descriptionElement,
-                viewDetailsButtonElement = viewDetailsButtonElement
+                viewDetailsBackButtonElement = viewDetailsBackButtonElement
         )
         applyStyle(
                 containerElement=containerElement,
                 titleElement = titleElement,
                 imageElement = imageElement,
                 descriptionElement = descriptionElement,
-                viewDetailsButtonElement = viewDetailsButtonElement
+                viewDetailsBackButtonElement = viewDetailsBackButtonElement
         )
 
         containerElement.appendChild(
                 titleElement,
                 imageElement,
                 descriptionElement,
-                viewDetailsButtonElement
+                viewDetailsBackButtonElement
         )
 
         return containerElement
@@ -42,13 +42,13 @@ class FormBuilder {
             titleElement: HTMLDivElement,
             imageElement: HTMLImageElement,
             descriptionElement: HTMLDivElement,
-            viewDetailsButtonElement: HTMLButtonElement
+            viewDetailsBackButtonElement: HTMLButtonElement
     ) {
-        containerElement.addClass("card", "card-shadow")
+        containerElement.addClass("form", "form-shadow")
         titleElement.addClass("text-title", "float-left")
         imageElement.addClass("cover-image")
         descriptionElement.addClass("text-description", "float-left")
-        viewDetailsButtonElement.addClass("view-details", "ripple", "float-right")
+        viewDetailsBackButtonElement.addClass("view-details", "ripple", "float-right")
     }
 
     private fun bind(
@@ -56,15 +56,21 @@ class FormBuilder {
             titleElement: HTMLDivElement,
             imageElement: HTMLImageElement,
             descriptionElement: HTMLDivElement,
-            viewDetailsButtonElement: HTMLButtonElement
+            viewDetailsBackButtonElement: HTMLButtonElement
     ) {
         titleElement.innerHTML = paymentOptionForm.name
         imageElement.src = paymentOptionForm.logoUrl
         descriptionElement.innerHTML = paymentOptionForm.description
 
-        viewDetailsButtonElement.innerHTML = "view details"
-        viewDetailsButtonElement.addEventListener("click", {
-            //            window.open(paymentOption.url)
+        viewDetailsBackButtonElement.innerHTML = "BACK"
+        viewDetailsBackButtonElement.addEventListener("click", {
+            val paymentOptionFormPresenter = PaymentOptionFormPresenter()
+            val paymentOptionFormPage = PaymentOptionFormPage(paymentOptionFormPresenter)
+            paymentOptionFormPage.hidePaymentOptionForm()
+
+            val paymentOptionListPresenter = PaymentOptionListPresenter()
+            val paymentOptionListPage = PaymentOptionListPage(paymentOptionListPresenter)
+            paymentOptionListPage.show()
         })
     }
 
