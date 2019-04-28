@@ -25,6 +25,6 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
     fun show(codename: String) {
         println(codename)
         presenter.attach(this)
-        presenter.loadPaymentOptionForm()
+        presenter.loadPaymentOptionForm(codename)
     }
 }

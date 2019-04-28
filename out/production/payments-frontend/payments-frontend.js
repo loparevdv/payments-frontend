@@ -10,8 +10,8 @@ this['payments-frontend'] = function (_, Kotlin) {
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
   var throwUPAE = Kotlin.throwUPAE;
-  var toList = Kotlin.kotlin.collections.toList_us0mfu$;
   var toShort = Kotlin.toShort;
+  var toList = Kotlin.kotlin.collections.toList_us0mfu$;
   var API_URL;
   function main() {
     var paymentOptionListPresenter = new PaymentOptionListPresenter();
@@ -154,7 +154,7 @@ this['payments-frontend'] = function (_, Kotlin) {
   PaymentOptionFormPage.prototype.show_61zpoe$ = function (codename) {
     println(codename);
     this.presenter_0.attach_13q136$(this);
-    this.presenter_0.loadPaymentOptionForm();
+    this.presenter_0.loadPaymentOptionForm_61zpoe$(codename);
   };
   PaymentOptionFormPage.$metadata$ = {
     kind: Kind_CLASS,
@@ -179,15 +179,16 @@ this['payments-frontend'] = function (_, Kotlin) {
   };
   function PaymentOptionFormPresenter$loadPaymentOptionForm$lambda(this$PaymentOptionFormPresenter) {
     return function (response) {
-      var paymentOptionForms = JSON.parse(response);
+      var paymentOptionForm = JSON.parse(response);
       this$PaymentOptionFormPresenter.view_0.hideLoader();
-      this$PaymentOptionFormPresenter.view_0.showPaymentOptionForm_1prwkh$(toList(paymentOptionForms).get_za3lpa$(0));
+      this$PaymentOptionFormPresenter.view_0.showPaymentOptionForm_1prwkh$(paymentOptionForm);
       return Unit;
     };
   }
-  PaymentOptionFormPresenter.prototype.loadPaymentOptionForm = function () {
+  PaymentOptionFormPresenter.prototype.loadPaymentOptionForm_61zpoe$ = function (codename) {
     this.view_0.showLoader();
-    this.getAsync_0(API_URL, PaymentOptionFormPresenter$loadPaymentOptionForm$lambda(this));
+    var URL = 'http://localhost:8080/payment_option/';
+    this.getAsync_0(URL + codename, PaymentOptionFormPresenter$loadPaymentOptionForm$lambda(this));
   };
   function PaymentOptionFormPresenter$getAsync$lambda(closure$xmlHttp, closure$callback) {
     return function (it) {

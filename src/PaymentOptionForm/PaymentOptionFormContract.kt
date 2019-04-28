@@ -8,6 +8,6 @@ interface PaymentOptionFormContract {
 
     interface Presenter {
         fun attach(view: View) // 4
-        fun loadPaymentOptionForm() // 5
+        fun loadPaymentOptionForm(codename: String) // 5
     }
 }

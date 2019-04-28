@@ -7,12 +7,14 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
         this.view = view
     }
 
-    override fun loadPaymentOptionForm() {
+    override fun loadPaymentOptionForm(codename: String) {
         view.showLoader()
-        getAsync(API_URL) { response ->
-            val paymentOptionForms = JSON.parse<Array<PaymentOptionForm>>(response)
+        // TODO: supposed to be better way url joining :O
+        val URL = "http://localhost:8080/payment_option/"
+        getAsync("$URL$codename") { response ->
+            val paymentOptionForm= JSON.parse<PaymentOptionForm>(response)
             view.hideLoader()
-            view.showPaymentOptionForm(paymentOptionForms.toList()[0])
+            view.showPaymentOptionForm(paymentOptionForm)
         }
     }
 
