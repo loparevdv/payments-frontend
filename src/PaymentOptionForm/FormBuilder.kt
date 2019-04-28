@@ -38,12 +38,22 @@ class FormBuilder {
 
         schema.forEach {
             val input = document.createElement("input") as HTMLInputElement
-            input.innerHTML = it
+            input.placeholder = it
+            input.id = it
             input.addClass("form-input")
             containerElement.appendChild(input)
         }
 
         return containerElement
+    }
+
+    private fun submitForm(paymentOptionForm: PaymentOptionForm) {
+        val schema= JSON.parse<Array<String>>(paymentOptionForm.schema)
+        val res = schema.map {
+            val input = document.getElementById(it) as HTMLInputElement
+            Pair(it, input.value)
+        }
+        println(res)
     }
 
     private fun applyStyle(
@@ -71,17 +81,24 @@ class FormBuilder {
         imageElement.src = paymentOptionForm.logoUrl
 
         viewFormSubmitButtonElement.innerHTML = "SUBMIT"
+        viewFormSubmitButtonElement.addEventListener("click", {
+            submitForm(paymentOptionForm)
+        })
 
         viewDetailsBackButtonElement.innerHTML = "BACK"
         viewDetailsBackButtonElement.addEventListener("click", {
-            val paymentOptionFormPresenter = PaymentOptionFormPresenter()
-            val paymentOptionFormPage = PaymentOptionFormPage(paymentOptionFormPresenter)
-            paymentOptionFormPage.hidePaymentOptionForm()
-
-            val paymentOptionListPresenter = PaymentOptionListPresenter()
-            val paymentOptionListPage = PaymentOptionListPage(paymentOptionListPresenter)
-            paymentOptionListPage.show()
+            goBack()
         })
+    }
+
+    private fun goBack() {
+        val paymentOptionFormPresenter = PaymentOptionFormPresenter()
+        val paymentOptionFormPage = PaymentOptionFormPage(paymentOptionFormPresenter)
+        paymentOptionFormPage.hidePaymentOptionForm()
+
+        val paymentOptionListPresenter = PaymentOptionListPresenter()
+        val paymentOptionListPage = PaymentOptionListPage(paymentOptionListPresenter)
+        paymentOptionListPage.show()
     }
 
     private fun Element.appendChild(vararg elements: Element) {

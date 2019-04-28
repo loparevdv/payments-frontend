@@ -6,9 +6,11 @@ this['payments-frontend'] = function (_, Kotlin) {
   var throwCCE = Kotlin.throwCCE;
   var addClass = Kotlin.kotlin.dom.addClass_hhb33f$;
   var Unit = Kotlin.kotlin.Unit;
-  var Kind_CLASS = Kotlin.Kind.CLASS;
-  var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
+  var Pair = Kotlin.kotlin.Pair;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var Kind_CLASS = Kotlin.Kind.CLASS;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var throwUPAE = Kotlin.throwUPAE;
   var toShort = Kotlin.toShort;
   var toList = Kotlin.kotlin.collections.toList_us0mfu$;
@@ -36,11 +38,26 @@ this['payments-frontend'] = function (_, Kotlin) {
       var element = schema[tmp$_4];
       var tmp$_5;
       var input = Kotlin.isType(tmp$_5 = document.createElement('input'), HTMLInputElement) ? tmp$_5 : throwCCE();
-      input.innerHTML = element;
+      input.placeholder = element;
+      input.id = element;
       addClass(input, ['form-input']);
       containerElement.appendChild(input);
     }
     return containerElement;
+  };
+  FormBuilder.prototype.submitForm_0 = function (paymentOptionForm) {
+    var schema = JSON.parse(paymentOptionForm.schema);
+    var destination = ArrayList_init(schema.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== schema.length; ++tmp$) {
+      var item = schema[tmp$];
+      var tmp$_0 = destination.add_11rb$;
+      var tmp$_1;
+      var input = Kotlin.isType(tmp$_1 = document.getElementById(item), HTMLInputElement) ? tmp$_1 : throwCCE();
+      tmp$_0.call(destination, new Pair(item, input.value));
+    }
+    var res = destination;
+    println(res);
   };
   FormBuilder.prototype.applyStyle_0 = function (containerElement, titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement) {
     addClass(containerElement, ['form', 'form-shadow']);
@@ -49,21 +66,33 @@ this['payments-frontend'] = function (_, Kotlin) {
     addClass(viewFormSubmitButtonElement, ['submit', 'ripple', 'float-right']);
     addClass(viewDetailsBackButtonElement, ['back', 'ripple', 'float-right']);
   };
-  function FormBuilder$bind$lambda(it) {
+  function FormBuilder$bind$lambda(closure$paymentOptionForm, this$FormBuilder) {
+    return function (it) {
+      this$FormBuilder.submitForm_0(closure$paymentOptionForm);
+      return Unit;
+    };
+  }
+  function FormBuilder$bind$lambda_0(this$FormBuilder) {
+    return function (it) {
+      this$FormBuilder.goBack_0();
+      return Unit;
+    };
+  }
+  FormBuilder.prototype.bind_0 = function (paymentOptionForm, titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement) {
+    titleElement.innerHTML = paymentOptionForm.name;
+    imageElement.src = paymentOptionForm.logoUrl;
+    viewFormSubmitButtonElement.innerHTML = 'SUBMIT';
+    viewFormSubmitButtonElement.addEventListener('click', FormBuilder$bind$lambda(paymentOptionForm, this));
+    viewDetailsBackButtonElement.innerHTML = 'BACK';
+    viewDetailsBackButtonElement.addEventListener('click', FormBuilder$bind$lambda_0(this));
+  };
+  FormBuilder.prototype.goBack_0 = function () {
     var paymentOptionFormPresenter = new PaymentOptionFormPresenter();
     var paymentOptionFormPage = new PaymentOptionFormPage(paymentOptionFormPresenter);
     paymentOptionFormPage.hidePaymentOptionForm();
     var paymentOptionListPresenter = new PaymentOptionListPresenter();
     var paymentOptionListPage = new PaymentOptionListPage(paymentOptionListPresenter);
     paymentOptionListPage.show();
-    return Unit;
-  }
-  FormBuilder.prototype.bind_0 = function (paymentOptionForm, titleElement, imageElement, viewDetailsBackButtonElement, viewFormSubmitButtonElement) {
-    titleElement.innerHTML = paymentOptionForm.name;
-    imageElement.src = paymentOptionForm.logoUrl;
-    viewFormSubmitButtonElement.innerHTML = 'SUBMIT';
-    viewDetailsBackButtonElement.innerHTML = 'BACK';
-    viewDetailsBackButtonElement.addEventListener('click', FormBuilder$bind$lambda);
   };
   FormBuilder.prototype.appendChild_0 = function ($receiver, elements) {
     var tmp$;
