@@ -165,19 +165,33 @@ this['payments-frontend'] = function (_, Kotlin) {
   function TileBuilder() {
   }
   TileBuilder.prototype.build_yxfpx7$ = function (paymentOption) {
-    var tmp$, tmp$_0;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var containerElement = Kotlin.isType(tmp$ = document.createElement('div'), HTMLDivElement) ? tmp$ : throwCCE();
     var titleElement = Kotlin.isType(tmp$_0 = document.createElement('div'), HTMLDivElement) ? tmp$_0 : throwCCE();
-    this.bind_0(paymentOption, titleElement);
-    this.applyStyle_0(containerElement, titleElement);
+    var imageElement = Kotlin.isType(tmp$_1 = document.createElement('img'), HTMLImageElement) ? tmp$_1 : throwCCE();
+    var descriptionElement = Kotlin.isType(tmp$_2 = document.createElement('div'), HTMLDivElement) ? tmp$_2 : throwCCE();
+    this.bind_0(paymentOption, titleElement, imageElement, descriptionElement);
+    this.applyStyle_0(containerElement, titleElement, imageElement, descriptionElement);
+    this.appendChild_0(containerElement, [titleElement, imageElement, descriptionElement]);
     return containerElement;
   };
-  TileBuilder.prototype.applyStyle_0 = function (containerElement, titleElement) {
+  TileBuilder.prototype.applyStyle_0 = function (containerElement, titleElement, imageElement, descriptionElement) {
     addClass(containerElement, ['card', 'card-shadow']);
     addClass(titleElement, ['text-title', 'float-left']);
+    addClass(imageElement, ['cover-image']);
+    addClass(descriptionElement, ['text-description', 'float-left']);
   };
-  TileBuilder.prototype.bind_0 = function (paymentOption, titleElement) {
+  TileBuilder.prototype.bind_0 = function (paymentOption, titleElement, imageElement, descriptionElement) {
     titleElement.innerHTML = paymentOption.name;
+    imageElement.src = paymentOption.logoUrl;
+    descriptionElement.innerHTML = paymentOption.description;
+  };
+  TileBuilder.prototype.appendChild_0 = function ($receiver, elements) {
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== elements.length; ++tmp$) {
+      var element = elements[tmp$];
+      $receiver.appendChild(element);
+    }
   };
   TileBuilder.$metadata$ = {
     kind: Kind_CLASS,

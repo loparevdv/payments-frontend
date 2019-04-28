@@ -1,3 +1,4 @@
+import org.w3c.dom.Element
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLImageElement
@@ -25,6 +26,12 @@ class TileBuilder {
                 descriptionElement = descriptionElement
         )
 
+        containerElement.appendChild(
+                titleElement,
+                imageElement,
+                descriptionElement
+        )
+
         return containerElement
     }
 
@@ -49,5 +56,11 @@ class TileBuilder {
         titleElement.innerHTML = paymentOption.name
         imageElement.src = paymentOption.logoUrl
         descriptionElement.innerHTML = paymentOption.description
+    }
+
+    private fun Element.appendChild(vararg elements: Element) {
+        elements.forEach {
+            this.appendChild(it)
+        }
     }
 }
