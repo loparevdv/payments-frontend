@@ -9,20 +9,20 @@ class PaymentOptionListPage(private val presenter: PaymentOptionListContract.Pre
 
     override fun showPaymentOptions(paymentOptions: List<PaymentOption>) {
         paymentOptions.forEach { paymentOption ->
-            println(paymentOption)
             var tile = tileBuilder.build(paymentOption)
-            println(tile)
             content.appendChild(tile)
         }
     }
 
+    override fun hidePaymentOptions() {
+        content.innerHTML = ""
+    }
+
     override fun showLoader() {
-        println("showLoader")
     }
 
     override fun hideLoader() {
         loader.style.display = "none"
-        println("hideLoader")
     }
 
     fun show() {

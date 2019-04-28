@@ -1,19 +1,18 @@
 import org.w3c.xhr.XMLHttpRequest
 
-class PaymentOptionListPresenter : PaymentOptionListContract.Presenter {
-    private lateinit var view: PaymentOptionListContract.View
-    override fun attach(view: PaymentOptionListContract.View) {
+
+class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
+    private lateinit var view:PaymentOptionFormContract.View
+    override fun attach(view:PaymentOptionFormContract.View) {
         this.view = view
     }
 
-    override fun loadPaymentOptions() {
+    override fun loadPaymentOptionForm() {
         view.showLoader()
         getAsync(API_URL) { response ->
-            val paymentOptions = JSON.parse<Array<PaymentOption>>(response)
+            val paymentOptionForms = JSON.parse<Array<PaymentOptionForm>>(response)
             view.hideLoader()
-            println(paymentOptions.toList())
-            view.showPaymentOptions(paymentOptions.toList())
-
+            view.showPaymentOptionForm(paymentOptionForms.toList()[0])
         }
     }
 
