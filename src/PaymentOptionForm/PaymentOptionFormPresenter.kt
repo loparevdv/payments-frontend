@@ -1,4 +1,8 @@
 import org.w3c.xhr.XMLHttpRequest
+import kotlin.js.Json
+import kotlin.js.json
+//import kotlinx.serialization.*
+//import kotlinx.serialization.json.Json
 
 
 class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
@@ -18,26 +22,34 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
         }
     }
 
-    fun submitPaymentOptionForm(codename: String, formData: HashMap<String, String>) {
+    fun submitPaymentOptionForm(codename: String, formData: List<Pair<String, String>>) {
         // TODO: cast to JSON properly
-        println(formData.toString())
+        val mapData = HashMap<String, String>()
+        formData.forEach { mapData[it.first] = it.second }
+        println(JSON.stringify(mapData))
+        println("123---")
+//        Json().toJson(mapData)
+        val mapData1 = formData.associate { it.first to it.second }
+        println(mapData1.toString())
+        println(JSON.stringify(mapData1))
+        println("123---")
+
+        val jsonFormData = JSON.stringify(formData)
         val URL = "http://localhost:8080/payment_option/$codename"
-        postAsync(URL, formData) {
+        postAsync(URL, jsonFormData) {
             println(it)
         }
     }
 
-    private fun postAsync(url: String, data: HashMap<String, String>, callback: (String) -> Unit) {
+    private fun postAsync(url: String, data: String, callback: (String) -> Unit) {
         val xmlHttp = XMLHttpRequest()
         xmlHttp.open("POST", url, true)
         xmlHttp.setRequestHeader("Content-Type", "application/json")
         xmlHttp.onreadystatechange = {
             if (xmlHttp.readyState == 4.toShort() && xmlHttp.status == 200.toShort()) {
-                println("YAY! Done!")
             }
-            else { println("Something wrong") }
         }
-        xmlHttp.send(data.toString())
+        xmlHttp.send(data)
     }
 
     private fun getAsync(url: String, callback: (String) -> Unit) {

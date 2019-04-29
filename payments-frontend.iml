@@ -10,5 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaScript" level="project" />
+    <orderEntry type="library" name="kotlinx-serialization-compiler-plugin" level="project" />
+    <orderEntry type="library" name="kotlinx-serialization-compiler-plugin1" level="project" />
   </component>
 </module>

@@ -1,1 +1,6 @@
 out/*
+build/
+.gradle/
+web/
+webs/
+gradle/

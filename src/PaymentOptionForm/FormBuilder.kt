@@ -1,8 +1,7 @@
 import org.w3c.dom.*
-import org.w3c.xhr.XMLHttpRequest
 import kotlin.browser.document
-import kotlin.browser.window
 import kotlin.dom.addClass
+import kotlin.js.json
 
 
 class FormBuilder {
@@ -53,18 +52,18 @@ class FormBuilder {
         return containerElement
     }
 
-    private fun getFormData(paymentOptionForm: PaymentOptionForm): HashMap<String, String> {
+    private fun getFormData(paymentOptionForm: PaymentOptionForm): List<Pair<String, String>> {
         val schema= JSON.parse<Array<String>>(paymentOptionForm.schema)
-        val raw = schema.map {
+
+        val values = schema.map {
             val input = document.getElementById(it) as HTMLInputElement
-            Pair(it, input.value)
+            input.value
         }
-        val payload = HashMap<String, String>()
-        raw.forEach { payload.put(it.first, it.second) }
-        return payload
+        val pairs = schema.zip(values)
+        return pairs
     }
 
-    private fun submitForm(codename: String, formData: HashMap<String, String>) {
+    private fun submitForm(codename: String, formData: List<Pair<String, String>>) {
         val paymentOptionFormPresenter = PaymentOptionFormPresenter()
         paymentOptionFormPresenter.submitPaymentOptionForm(codename, formData)
     }
