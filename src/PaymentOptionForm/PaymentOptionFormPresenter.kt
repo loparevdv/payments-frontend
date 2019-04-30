@@ -2,14 +2,7 @@ import org.w3c.xhr.XMLHttpRequest
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.ArrayListSerializer
-import kotlinx.serialization.internal.ListLikeSerializer
-import kotlinx.serialization.internal.PairSerializer
 import kotlinx.serialization.internal.StringSerializer
-
-@Serializable
-data class Payload(val payload: Map<String, String>)
-
 
 class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
     private lateinit var view:PaymentOptionFormContract.View
@@ -44,6 +37,7 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
         xmlHttp.setRequestHeader("Content-Type", "application/json")
         xmlHttp.onreadystatechange = {
             if (xmlHttp.readyState == 4.toShort() && xmlHttp.status == 200.toShort()) {
+                println(xmlHttp.responseText)
             }
         }
         xmlHttp.send(data)
