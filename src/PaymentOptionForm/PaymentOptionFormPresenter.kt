@@ -1,8 +1,10 @@
 import org.w3c.xhr.XMLHttpRequest
-import kotlin.js.Json
-import kotlin.js.json
-//import kotlinx.serialization.*
-//import kotlinx.serialization.json.Json
+
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.*
+
+@Serializable
+data class Payload(val payload: Map<String, String>)
 
 
 class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
@@ -23,20 +25,11 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
     }
 
     fun submitPaymentOptionForm(codename: String, formData: List<Pair<String, String>>) {
-        // TODO: cast to JSON properly
-        val mapData = HashMap<String, String>()
-        formData.forEach { mapData[it.first] = it.second }
-        println(JSON.stringify(mapData))
-        println("123---")
-//        Json().toJson(mapData)
         val mapData1 = formData.associate { it.first to it.second }
-        println(mapData1.toString())
-        println(JSON.stringify(mapData1))
-        println("123---")
-
-        val jsonFormData = JSON.stringify(formData)
+        val jsonPayload = Json.stringify(Payload.serializer(), Payload(mapData1))
+        println(Json.stringify(Payload.serializer(), Payload(mapData1)))
         val URL = "http://localhost:8080/payment_option/$codename"
-        postAsync(URL, jsonFormData) {
+        postAsync(URL, jsonPayload) {
             println(it)
         }
     }

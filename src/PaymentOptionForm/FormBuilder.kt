@@ -1,8 +1,6 @@
 import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.dom.addClass
-import kotlin.js.json
-
 
 class FormBuilder {
     fun build(codename: String, paymentOptionForm: PaymentOptionForm): HTMLElement {
@@ -25,7 +23,6 @@ class FormBuilder {
         viewDetailsBackButtonElement.addEventListener("click", {
             goBack()
         })
-
         containerElement.addClass("form", "form-shadow")
         titleElement.addClass("text-title", "float-left")
         imageElement.addClass("cover-image")
