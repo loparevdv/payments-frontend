@@ -2,6 +2,10 @@ import org.w3c.xhr.XMLHttpRequest
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.*
+import kotlinx.serialization.internal.ArrayListSerializer
+import kotlinx.serialization.internal.ListLikeSerializer
+import kotlinx.serialization.internal.PairSerializer
+import kotlinx.serialization.internal.StringSerializer
 
 @Serializable
 data class Payload(val payload: Map<String, String>)
@@ -26,8 +30,8 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
 
     fun submitPaymentOptionForm(codename: String, formData: List<Pair<String, String>>) {
         val mapData1 = formData.associate { it.first to it.second }
-        val jsonPayload = Json.stringify(Payload.serializer(), Payload(mapData1))
-        println(Json.stringify(Payload.serializer(), Payload(mapData1)))
+        val serial = (StringSerializer to StringSerializer).map
+        val jsonPayload = Json.stringify(serial, mapData1)
         val URL = "http://localhost:8080/payment_option/$codename"
         postAsync(URL, jsonPayload) {
             println(it)
