@@ -2,15 +2,17 @@ import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.dom.addClass
 
-class FormBuilder {
+class FormBuilder(codename: String, paymentOptionFormFields: PaymentOptionFormFields) {
+    private val codename = codename
+    private val paymentOptionFormFields = paymentOptionFormFields
 
-    fun build(codename: String, paymentOptionFormFields: PaymentOptionFormFields): HTMLElement {
-        val containerElement = document.createElement("div") as HTMLDivElement
-        val titleElement = document.createElement("div") as HTMLDivElement
-        val imageElement = document.createElement("img") as HTMLImageElement
-        val viewDetailsBackButtonElement = document.createElement("button") as HTMLButtonElement
-        val viewFormSubmitButtonElement = document.createElement("button") as HTMLButtonElement
+    private val containerElement = document.createElement("div") as HTMLDivElement
+    private val titleElement = document.createElement("div") as HTMLDivElement
+    private val imageElement = document.createElement("img") as HTMLImageElement
+    private val viewDetailsBackButtonElement = document.createElement("button") as HTMLButtonElement
+    private val viewFormSubmitButtonElement = document.createElement("button") as HTMLButtonElement
 
+    fun build(): HTMLElement {
         titleElement.innerHTML = paymentOptionFormFields.name
         imageElement.src = paymentOptionFormFields.logoUrl
 

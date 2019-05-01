@@ -9,7 +9,8 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
     private val content = document.getElementById("content") as HTMLDivElement
 
     override fun showPaymentOptionForm(codename: String, paymentOptionFormFields: PaymentOptionFormFields) {
-        content.appendChild(FormBuilder().build(codename, paymentOptionFormFields))
+        val formBuilder = FormBuilder(codename, paymentOptionFormFields)
+        content.appendChild(formBuilder.build())
     }
 
     override fun hidePaymentOptionForm() {
