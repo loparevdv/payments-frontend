@@ -60,7 +60,8 @@ class FormBuilder {
 
     private fun submitForm(codename: String, formData: List<Pair<String, String>>) {
         val paymentOptionFormPresenter = PaymentOptionFormPresenter()
-        paymentOptionFormPresenter.submitPaymentOptionForm(codename, formData)
+        val paymentOptionFormPage = PaymentOptionFormPage(paymentOptionFormPresenter)
+        paymentOptionFormPage.submitPaymentOptionForm(codename, formData)
     }
 
     private fun goBack() {

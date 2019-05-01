@@ -1,13 +1,18 @@
 interface PaymentOptionFormContract {
     interface View {
-        fun showPaymentOptionForm(codename: String, paymentOptionFormFields: PaymentOptionFormFields) // 1
+        fun showPaymentOptionForm(codename: String, paymentOptionFormFields: PaymentOptionFormFields)
         fun hidePaymentOptionForm()
-        fun showLoader() // 2
-        fun hideLoader() // 3
+
+        fun showPaymentOptionFormErrors(jsonErrors: String)
+        fun showPaymentOptionFormSuccess()
+
+        fun showLoader()
+        fun hideLoader()
     }
 
     interface Presenter {
-        fun attach(view: View) // 4
-        fun loadPaymentOptionForm(codename: String) // 5
+        fun attach(view: View)
+        fun loadPaymentOptionForm(codename: String)
+        fun submitPaymentOptionForm(codename: String, jsonPayload: String)
     }
 }

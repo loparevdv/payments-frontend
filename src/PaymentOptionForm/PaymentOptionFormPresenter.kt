@@ -21,13 +21,11 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
         }
     }
 
-    fun submitPaymentOptionForm(codename: String, formData: List<Pair<String, String>>) {
-        val mapData1 = formData.associate { it.first to it.second }
-        val serial = (StringSerializer to StringSerializer).map
-        val jsonPayload = Json.stringify(serial, mapData1)
+    override fun submitPaymentOptionForm(codename: String, jsonPayload: String) {
         val URL = "http://localhost:8080/payment_option/$codename"
-        postAsync(URL, jsonPayload) {
-            println(it)
+        postAsync(URL, jsonPayload) { response ->
+            if (response != "") view.showPaymentOptionFormErrors(response) else view.showPaymentOptionFormSuccess()
+
         }
     }
 
@@ -36,8 +34,12 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
         xmlHttp.open("POST", url, true)
         xmlHttp.setRequestHeader("Content-Type", "application/json")
         xmlHttp.onreadystatechange = {
+            // TODO: might be better routing
             if (xmlHttp.readyState == 4.toShort() && xmlHttp.status == 200.toShort()) {
-                println(xmlHttp.responseText)
+                callback.invoke("")
+            }
+            if (xmlHttp.readyState == 4.toShort() && xmlHttp.status == 400.toShort()) {
+                callback.invoke(xmlHttp.responseText)
             }
         }
         xmlHttp.send(data)
