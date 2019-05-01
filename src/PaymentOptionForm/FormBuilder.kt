@@ -3,19 +3,19 @@ import kotlin.browser.document
 import kotlin.dom.addClass
 
 class FormBuilder {
-    fun build(codename: String, paymentOptionForm: PaymentOptionForm): HTMLElement {
+    fun build(codename: String, paymentOptionFormFields: PaymentOptionFormFields): HTMLElement {
         val containerElement = document.createElement("div") as HTMLDivElement
         val titleElement = document.createElement("div") as HTMLDivElement
         val imageElement = document.createElement("img") as HTMLImageElement
         val viewDetailsBackButtonElement = document.createElement("button") as HTMLButtonElement
         val viewFormSubmitButtonElement = document.createElement("button") as HTMLButtonElement
 
-        titleElement.innerHTML = paymentOptionForm.name
-        imageElement.src = paymentOptionForm.logoUrl
+        titleElement.innerHTML = paymentOptionFormFields.name
+        imageElement.src = paymentOptionFormFields.logoUrl
 
         viewFormSubmitButtonElement.innerHTML = "SUBMIT"
         viewFormSubmitButtonElement.addEventListener("click", {
-            val formData = getFormData(paymentOptionForm)
+            val formData = getFormData(paymentOptionFormFields)
             submitForm(codename, formData)
         })
 
@@ -36,7 +36,7 @@ class FormBuilder {
                 viewFormSubmitButtonElement
         )
 
-        val schema= JSON.parse<Array<String>>(paymentOptionForm.schema)
+        val schema= JSON.parse<Array<String>>(paymentOptionFormFields.schema)
 
         schema.forEach {
             val input = document.createElement("input") as HTMLInputElement
@@ -49,15 +49,13 @@ class FormBuilder {
         return containerElement
     }
 
-    private fun getFormData(paymentOptionForm: PaymentOptionForm): List<Pair<String, String>> {
-        val schema= JSON.parse<Array<String>>(paymentOptionForm.schema)
-
+    private fun getFormData(paymentOptionFormFields: PaymentOptionFormFields): List<Pair<String, String>> {
+        val schema= JSON.parse<Array<String>>(paymentOptionFormFields.schema)
         val values = schema.map {
             val input = document.getElementById(it) as HTMLInputElement
             input.value
         }
-        val pairs = schema.zip(values)
-        return pairs
+        return schema.zip(values)
     }
 
     private fun submitForm(codename: String, formData: List<Pair<String, String>>) {

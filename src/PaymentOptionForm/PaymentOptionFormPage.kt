@@ -5,8 +5,8 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
     private val loader = document.getElementById("loader") as HTMLDivElement
     private val content = document.getElementById("content") as HTMLDivElement
 
-    override fun showPaymentOptionForm(codename: String, paymentOptionForm: PaymentOptionForm) {
-        var form = FormBuilder().build(codename, paymentOptionForm)
+    override fun showPaymentOptionForm(codename: String, paymentOptionFormFields: PaymentOptionFormFields) {
+        var form = FormBuilder().build(codename, paymentOptionFormFields)
         content.appendChild(form)
     }
 

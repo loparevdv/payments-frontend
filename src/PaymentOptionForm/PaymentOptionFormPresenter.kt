@@ -15,7 +15,7 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
         // TODO: suppose to be a better way of url joining :O
         val URL = "http://localhost:8080/payment_option/$codename"
         getAsync(URL) { response ->
-            val paymentOptionForm= JSON.parse<PaymentOptionForm>(response)
+            val paymentOptionForm= JSON.parse<PaymentOptionFormFields>(response)
             view.hideLoader()
             view.showPaymentOptionForm(codename, paymentOptionForm)
         }

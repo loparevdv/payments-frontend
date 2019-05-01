@@ -1,4 +1,4 @@
-data class PaymentOptionForm(
+data class PaymentOptionFormFields(
         val name: String,
         val codename: String,
         val description: String,
