@@ -24,8 +24,10 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
     override fun submitPaymentOptionForm(codename: String, jsonPayload: String) {
         val URL = "http://localhost:8080/payment_option/$codename"
         postAsync(URL, jsonPayload) { response ->
-            if (response != "") view.showPaymentOptionFormErrors(response) else view.showPaymentOptionFormSuccess()
-
+            when(response) {
+                "" -> view.showPaymentOptionFormSuccess()
+                else -> view.showPaymentOptionFormErrors(response)
+            }
         }
     }
 
