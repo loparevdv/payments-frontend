@@ -9,8 +9,11 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
     private val content = document.getElementById("content") as HTMLDivElement
 
     override fun showPaymentOptionForm(codename: String, paymentOptionFormFields: PaymentOptionFormFields) {
-        var form = FormBuilder().build(codename, paymentOptionFormFields)
-        content.appendChild(form)
+        content.appendChild(FormBuilder().build(codename, paymentOptionFormFields))
+    }
+
+    override fun hidePaymentOptionForm() {
+        content.innerHTML = ""
     }
 
     fun submitPaymentOptionForm(codename: String, formData: List<Pair<String, String>>) {
@@ -18,7 +21,7 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
         val serial = (StringSerializer to StringSerializer).map
 
         presenter.attach(this)
-        presenter.submitPaymentOptionForm(codename, Json.stringify(serial, mapData))
+        presenter.processCreateInvoice(codename, Json.stringify(serial, mapData))
     }
 
     override fun showPaymentOptionFormErrors(jsonErrors: String) {
@@ -27,10 +30,6 @@ class PaymentOptionFormPage(private val presenter: PaymentOptionFormContract.Pre
 
     override fun showPaymentOptionFormSuccess() {
         println("SUCCESS")
-    }
-
-    override fun hidePaymentOptionForm() {
-        content.innerHTML = ""
     }
 
     override fun showLoader() {

@@ -13,6 +13,6 @@ interface PaymentOptionFormContract {
     interface Presenter {
         fun attach(view: View)
         fun loadPaymentOptionForm(codename: String)
-        fun submitPaymentOptionForm(codename: String, jsonPayload: String)
+        fun processCreateInvoice(codename: String, jsonPayload: String)
     }
 }

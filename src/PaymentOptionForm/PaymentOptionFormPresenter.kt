@@ -1,11 +1,8 @@
 import org.w3c.xhr.XMLHttpRequest
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringSerializer
-
 class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
     private lateinit var view:PaymentOptionFormContract.View
+
     override fun attach(view:PaymentOptionFormContract.View) {
         this.view = view
     }
@@ -21,7 +18,7 @@ class PaymentOptionFormPresenter :PaymentOptionFormContract.Presenter {
         }
     }
 
-    override fun submitPaymentOptionForm(codename: String, jsonPayload: String) {
+    override fun processCreateInvoice(codename: String, jsonPayload: String) {
         val URL = "http://localhost:8080/payment_option/$codename"
         postAsync(URL, jsonPayload) { response ->
             when(response) {

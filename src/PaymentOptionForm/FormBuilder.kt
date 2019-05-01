@@ -3,6 +3,7 @@ import kotlin.browser.document
 import kotlin.dom.addClass
 
 class FormBuilder {
+
     fun build(codename: String, paymentOptionFormFields: PaymentOptionFormFields): HTMLElement {
         val containerElement = document.createElement("div") as HTMLDivElement
         val titleElement = document.createElement("div") as HTMLDivElement
